@@ -51,11 +51,28 @@ public class TestService {
                 .build()) {
             HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(client);
             RestTemplate template = new RestTemplate(factory);
+            /**
+            for (HttpMessageConverter<?> c : template.getMessageConverters()) {
+                if (c instanceof StringHttpMessageConverter) {
+                    ((StringHttpMessageConverter) c).setDefaultCharset(StandardCharsets.UTF_8);
+                }
+            }
+             */
             template.getMessageConverters()
                     .stream()
                     .filter(StringHttpMessageConverter.class::isInstance)
                     .map(StringHttpMessageConverter.class::cast)
                     .forEach(converter -> converter.setDefaultCharset(StandardCharsets.UTF_8));
+            /**
+            TreeMap<String, Object> maps = new TreeMap<>();
+            for (Map.Entry<String, String> r : data.getParameters().entrySet()) {
+                if ("appKey".equalsIgnoreCase(r.getKey()) ||
+                data.getSignKey().toLowerCase().equalsIgnoreCase(r.getKey())) {
+                    continue;
+                }
+                maps.put(r.getKey(), buildVal(r.getKey(), r.getValue(), data, type));
+            }
+            */
             SortedMap<String, Object> maps = data.getParameters()
                     .entrySet()
                     .stream()
