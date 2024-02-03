@@ -37,7 +37,7 @@ public class TestClient {
     public static Collection<Object[]> prepareData() throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
         ReadExcelData excelData = new ReadExcelData(latch);
-        EasyExcel.read(new File("E:\\src\\test\\data\\test.xls"), excelData).sheet("changeChannelAppext")
+        EasyExcel.read(new File("D:\\IdeaProjects\\test\\data\\test.xls"), excelData).sheet("changeChannelAppext")
                         .headRowNumber(-1).doRead();
         latch.await();
         return excelData.getData().stream().map(data -> new Object[]{data})
